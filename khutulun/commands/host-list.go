@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cobra"
 	clientpkg "github.com/tliron/khutulun/client"
-	"github.com/tliron/kutil/transcribe"
 	"github.com/tliron/kutil/util"
 )
 
@@ -24,7 +23,7 @@ var hostListCommand = &cobra.Command{
 		hosts, err := client.ListHosts()
 		util.FailOnError(err)
 		if len(hosts) > 0 {
-			err = transcribe.Print(hosts, format, os.Stdout, strict, pretty)
+			err = Transcriber().Print(hosts, os.Stdout, format)
 			util.FailOnError(err)
 		}
 	},

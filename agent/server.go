@@ -50,7 +50,11 @@ func (self *Server) Start(watcher bool, ticker bool) error {
 	var err error
 
 	var host sdk.Host
-	if host.Address, err = util.ToReachableIPAddress(self.GRPCAddress); err != nil {
+	var zone string
+	if host.Address, zone, err = util.ToReachableIPAddress(self.GRPCAddress); err != nil {
+		if zone != "" {
+			host.Address += "%" + zone
+		}
 		return err
 	}
 	if err := self.agent.state.SetHost(self.agent.host, &host); err != nil {

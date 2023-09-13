@@ -54,7 +54,11 @@ func (self *GRPC) Start() error {
 	api.RegisterAgentServer(self.grpcServer, self)
 
 	var err error
-	if self.Address, err = util.ToReachableIPAddress(self.Address); err != nil {
+	var zone string
+	if self.Address, zone, err = util.ToReachableIPAddress(self.Address); err != nil {
+		if zone != "" {
+			self.Address += "%" + zone
+		}
 		return err
 	}
 

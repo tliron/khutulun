@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/tliron/khutulun/configuration"
-	"github.com/tliron/kutil/transcribe"
 	"github.com/tliron/kutil/util"
 )
 
@@ -19,7 +18,7 @@ var clusterListCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := configuration.LoadOrNewClient(configurationPath)
 		util.FailOnError(err)
-		err = transcribe.Print(client.Clusters, format, os.Stdout, false, pretty)
+		err = Transcriber().Print(client.Clusters, os.Stdout, format)
 		util.FailOnError(err)
 	},
 }

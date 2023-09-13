@@ -190,11 +190,16 @@ func (self *Watcher) sync() error {
 	self.lock.Lock()
 	defer self.lock.Unlock()
 
-	return filepath.WalkDir(self.state.RootDir, func(path string, entry fs.DirEntry, err error) error {
+	return filepath.WalkDir(self.state.RootDir, func(path string, dirEntry fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
 		if util.IsFileHidden(path) {
 			return fs.SkipDir
 		}
-		if entry.IsDir() {
+
+		if dirEntry.IsDir() {
 			if err := self.watcher.Add(path); err == nil {
 				dir := NewDir(path)
 				watcherLog.Debugf("adding dir: %s", dir.String())
@@ -203,6 +208,7 @@ func (self *Watcher) sync() error {
 				return err
 			}
 		}
+
 		return nil
 	})
 }

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/tliron/kutil/transcribe"
+	"github.com/tliron/go-transcribe"
 	"github.com/tliron/kutil/util"
 )
 
@@ -32,7 +32,10 @@ func NewBroadcaster(protocol string, address string, port int) *Broadcaster {
 }
 
 func (self *Broadcaster) Start() error {
-	if address, err := util.ToBroadcastIPAddress(self.address); err == nil {
+	if address, zone, err := util.ToBroadcastIPAddress(self.address); err == nil {
+		if zone != "" {
+			address += "%" + zone
+		}
 		if udpAddr, err := net.ResolveUDPAddr(self.Protocol, util.JoinIPAddressPort(address, self.Port)); err == nil {
 			broadcastLog.Noticef("starting broadcaster on %s", udpAddr.String())
 			self.connection, err = net.DialUDP(self.Protocol, nil, udpAddr)
@@ -54,7 +57,7 @@ func (self *Broadcaster) Stop() error {
 }
 
 func (self *Broadcaster) SendJSON(message any) error {
-	if code, err := transcribe.EncodeJSON(message, ""); err == nil {
+	if code, err := transcribe.NewTranscriber().StringifyJSON(message); err == nil {
 		return self.Send(util.StringToBytes(code))
 	} else {
 		return err

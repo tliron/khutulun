@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/memberlist"
 	"github.com/tliron/commonlog"
 	"github.com/tliron/commonlog/sink"
-	"github.com/tliron/kutil/transcribe"
+	"github.com/tliron/go-transcribe"
 	"github.com/tliron/kutil/util"
 )
 
@@ -38,7 +38,11 @@ func NewGossip(address string, port int) *Gossip {
 func (self *Gossip) Start() error {
 	var err error
 
-	if self.Address, err = util.ToReachableIPAddress(self.Address); err != nil {
+	var zone string
+	if self.Address, zone, err = util.ToReachableIPAddress(self.Address); err != nil {
+		if zone != "" {
+			self.Address += "%" + zone
+		}
 		return err
 	}
 
@@ -137,7 +141,7 @@ func (self *Gossip) AddHosts(gossipAddresses []string) error {
 }
 
 func (self *Gossip) SendJSON(host string, message any) error {
-	if code, err := transcribe.EncodeJSON(message, ""); err == nil {
+	if code, err := transcribe.NewTranscriber().StringifyJSON(message); err == nil {
 		return self.Send(host, util.StringToBytes(code))
 	} else {
 		return err

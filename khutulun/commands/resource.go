@@ -4,7 +4,6 @@ import (
 	"os"
 
 	clientpkg "github.com/tliron/khutulun/client"
-	"github.com/tliron/kutil/transcribe"
 	"github.com/tliron/kutil/util"
 )
 
@@ -21,7 +20,7 @@ func listResources(type_ string, args []string) {
 	resources, err := client.ListResources(namespace, service, type_)
 	util.FailOnError(err)
 	if len(resources) > 0 {
-		err = transcribe.Print(resources, format, os.Stdout, strict, pretty)
+		err = Transcriber().Print(resources, os.Stdout, format)
 		util.FailOnError(err)
 	}
 }
