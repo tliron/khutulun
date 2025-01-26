@@ -1,0 +1,61 @@
+RPC
+===
+
+Cap'n Proto for Rust
+
+Cluster
+=======
+
+OpenRaft
+https://fast.github.io/blog/fastrace-a-modern-approach-to-distributed-tracing-in-rust/
+
+TUI
+===
+
+ratatui
+
+SDN
+===
+
+https://kubevious.io/blog/post/comparing-kubernetes-container-network-interface-cni-providers
+
+https://github.com/projectcalico/calico
+
+Rust:
+https://github.com/8xFF/atm0s-sdn
+
+OpenFlow:
+https://www.ovn.org/
+https://github.com/faucetsdn/faucet
+https://github.com/telstra/open-kilda/
+
+Graph DB
+========
+
+https://surrealdb.com/
+https://github.com/surrealdb/surrealdb
+Rust
+source-available, but not open source
+
+https://age.apache.org/
+On top of postgres
+https://github.com/Dzordzu/rust-apache-age
+Uses Cypher: https://opencypher.org/
+Oops: https://github.com/apache/age/issues/2111#issuecomment-2441903180
+
+https://cayley.io/
+no Rust client
+https://github.com/cayleygraph/cayley
+backends: postgres, mysql, mongo,
+Go
+
+https://janusgraph.org/
+https://github.com/JanusGraph/janusgraph
+backends: cassandra, hbase
+Java
+
+https://arangodb.com/
+https://github.com/arangodb/arangodb
+"community edition" limited to 100GB
+https://github.com/fMeow/arangors
+C++
